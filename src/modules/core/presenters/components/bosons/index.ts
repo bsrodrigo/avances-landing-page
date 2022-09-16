@@ -8,12 +8,21 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          paddingTop: 24,
+          paddingLeft: "48px !important",
+          paddingRight: "48px !important",
+        },
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
           borderRadius: 24,
           padding: "16px 24px",
-          backgroundColor: '#FFF !important'
+          backgroundColor: "#FFF !important",
         },
       },
     },

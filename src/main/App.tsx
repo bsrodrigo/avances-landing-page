@@ -1,4 +1,5 @@
 import {
+  Container,
   CssBaseline,
   GlobalStyles,
   ScopedCssBaseline,
@@ -16,14 +17,14 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
-        <div style={{ display: "flex", gap: 48 }}>
+        <div style={{ display: "flex" }}>
           <div style={{ width: 96 }}>
             <Sidebar />
           </div>
 
-          <div style={{ width: "calc(100% - 96px)", padding: "24px 0" }}>
+          <Container maxWidth={false}>
             <ProductPage />
-          </div>
+          </Container>
         </div>
       </ThemeProvider>
       {/* </ScopedCssBaseline> */}
