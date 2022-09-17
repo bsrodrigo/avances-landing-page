@@ -20,9 +20,31 @@ export const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
-          padding: "16px 24px",
+          borderRadius: 16,
           backgroundColor: "#FFF !important",
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 24,
+          padding: 24,
+          backgroundColor: "#FFF !important",
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: 24,
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: "32px 24px",
         },
       },
     },
