@@ -35,7 +35,7 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
           Adicionar Produto
         </Typography>
         <Typography variant="body1" color={(theme) => theme.palette.grey[600]}>
-          Adicione um novo produto oferecido pelo seu negócio
+          Adicione um novo produto disponível na gestão de seu negócio
         </Typography>
       </DialogTitle>
       <DialogContent dividers>
@@ -101,7 +101,7 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
                 <FormControl>
                   <FormControlLabel
                     control={<Switch name="antoine" />}
-                    label="Valor fixo"
+                    label="Estoque Disponível"
                     labelPlacement="end"
                   />
                   <FormHelperText>O Produto terá um estoque?</FormHelperText>

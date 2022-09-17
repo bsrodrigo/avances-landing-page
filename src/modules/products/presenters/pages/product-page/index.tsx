@@ -41,7 +41,7 @@ export const ProductPage: React.FC = () => {
               variant="body1"
               color={(theme) => theme.palette.grey[600]}
             >
-              Veja os produtos oferecidos pelo seu negócio
+              Veja os produto disponíveis na gestão de seu negócio
             </Typography>
           </div>
 
