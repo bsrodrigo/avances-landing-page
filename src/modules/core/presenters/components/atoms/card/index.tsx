@@ -1,20 +1,8 @@
-import { ReactNode } from "react";
+import { Card as MuiCard, CardProps } from "@mui/material";
+import React from "react";
 
-interface ICard {
-  children: ReactNode;
-}
+interface ICard extends CardProps {}
 
-export const Card: React.FC<ICard> = ({ children }) => {
-  return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: 32,
-        padding: "16px 14px",
-        boxShadow: "rgb(0 0 0 / 78%) 0px 3px 12px -6px",
-      }}
-    >
-      {children}
-    </div>
-  );
+export const Card: React.FC<ICard> = ({ children, ...props }) => {
+  return <MuiCard {...props}>{children}</MuiCard>;
 };

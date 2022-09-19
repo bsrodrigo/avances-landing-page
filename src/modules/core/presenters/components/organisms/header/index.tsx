@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography } from "@/modules/core/presenters/components/atoms";
 import {
   Breadcrumbs,
   IBreadcrumb,

@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-import { alpha, Card, IconButton, Typography } from "@mui/material";
+import { alpha, Card, IconButton } from "@mui/material";
 import { AddOutlined } from "@mui/icons-material";
 
-import { Header } from "@/modules/core/presenters/components/organisms";
-
+import { Typography } from "@/modules/core/presenters/components/atoms";
 import { theme } from "@/modules/core/presenters/components/bosons";
+import { Header } from "@/modules/core/presenters/components/organisms";
 import { ProductsTable } from "@/modules/products/presenters/components/organisms";
 import { ProductForm } from "@/modules/products/presenters/components/molecules";
 

@@ -12,8 +12,8 @@ import {
   Grid,
   MenuItem,
   Switch,
-  Typography,
 } from "@mui/material";
+import { Typography } from "@/modules/core/presenters/components/atoms";
 import { Input, Select } from "@/modules/core/presenters/components/molecules";
 
 interface IProductForm {

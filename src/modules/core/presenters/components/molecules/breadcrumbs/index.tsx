@@ -1,4 +1,5 @@
-import { Breadcrumbs as MuiBreadcrumbs, Link, Typography } from "@mui/material";
+import { Breadcrumbs as MuiBreadcrumbs, Link } from "@mui/material";
+import { Typography } from "@/modules/core/presenters/components/atoms";
 
 export interface IBreadcrumb {
   label: string;
