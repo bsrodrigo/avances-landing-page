@@ -1,6 +1,7 @@
 export * from "./breadcrumbs";
 export * from "./card";
 export * from "./input-base";
+export * from "./link";
 export * from "./paper";
 export * from "./select-base";
 export * from "./sidebar-menu-item";
