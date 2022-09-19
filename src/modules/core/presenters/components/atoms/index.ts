@@ -1,3 +1,4 @@
+export * from "./breadcrumbs";
 export * from "./card";
 export * from "./input-base";
 export * from "./paper";

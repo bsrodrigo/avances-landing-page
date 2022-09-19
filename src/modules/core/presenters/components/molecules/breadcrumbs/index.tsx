@@ -1,5 +1,5 @@
-import { Breadcrumbs as MuiBreadcrumbs, Link } from "@mui/material";
-import { Typography } from "@/modules/core/presenters/components/atoms";
+import { Link } from "@mui/material";
+import { BaseBreadcrumbs, Typography } from "@/modules/core/presenters/components/atoms";
 
 export interface IBreadcrumb {
   label: string;
@@ -13,7 +13,7 @@ interface IBreadcrumbs {
 export const Breadcrumbs: React.FC<IBreadcrumbs> = ({ breadcrumbs }) => {
   console.log({ breadcrumbs });
   return (
-    <MuiBreadcrumbs aria-label="breadcrumb">
+    <BaseBreadcrumbs aria-label="breadcrumb">
       {breadcrumbs?.map((breadcrumb, index) =>
         breadcrumb?.link ? (
           <Link
@@ -30,6 +30,6 @@ export const Breadcrumbs: React.FC<IBreadcrumbs> = ({ breadcrumbs }) => {
           </Typography>
         )
       )}
-    </MuiBreadcrumbs>
+    </BaseBreadcrumbs>
   );
 };
