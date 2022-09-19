@@ -1,5 +1,6 @@
 export * from "./breadcrumbs";
 export * from "./card";
+export * from "./form-control";
 export * from "./input-base";
 export * from "./link";
 export * from "./paper";

@@ -1,12 +1,15 @@
 import {
-  FormControl,
   FormHelperText,
   InputBase,
   InputLabel,
   Select as MuiSelect,
   SelectProps,
 } from "@mui/material";
-import { SelectBase } from "@/modules/core/presenters/components/atoms";
+
+import {
+  FormControl,
+  SelectBase,
+} from "@/modules/core/presenters/components/atoms";
 
 interface ISelect extends SelectProps {
   error?: boolean;

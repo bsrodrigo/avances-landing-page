@@ -4,7 +4,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   FormControlLabel,
   FormGroup,
   FormHelperText,
@@ -13,7 +12,10 @@ import {
   MenuItem,
   Switch,
 } from "@mui/material";
-import { Typography } from "@/modules/core/presenters/components/atoms";
+import {
+  FormControl,
+  Typography,
+} from "@/modules/core/presenters/components/atoms";
 import { Input, Select } from "@/modules/core/presenters/components/molecules";
 
 interface IProductForm {
