@@ -1,13 +1,12 @@
 import {
   FormHelperText,
-  InputBase,
-  InputLabel,
   Select as MuiSelect,
   SelectProps,
 } from "@mui/material";
 
 import {
   FormControl,
+  InputLabel,
   SelectBase,
 } from "@/modules/core/presenters/components/atoms";
 

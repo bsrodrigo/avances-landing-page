@@ -2,6 +2,7 @@ export * from "./breadcrumbs";
 export * from "./card";
 export * from "./form-control";
 export * from "./input-base";
+export * from "./input-label";
 export * from "./link";
 export * from "./paper";
 export * from "./select-base";

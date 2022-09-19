@@ -1,8 +1,9 @@
-import { FormHelperText, InputLabel } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import {
   FormControl,
   IInputBase,
   InputBase,
+  InputLabel,
 } from "@/modules/core/presenters/components/atoms";
 
 interface IInput extends IInputBase {
