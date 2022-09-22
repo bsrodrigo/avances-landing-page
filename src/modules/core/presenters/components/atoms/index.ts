@@ -1,6 +1,7 @@
 export * from "./breadcrumbs";
 export * from "./card";
 export * from "./form-control";
+export * from "./form-helper-text";
 export * from "./input-base";
 export * from "./input-label";
 export * from "./link";

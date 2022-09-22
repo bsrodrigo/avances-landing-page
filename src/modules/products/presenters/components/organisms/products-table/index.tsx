@@ -1,9 +1,10 @@
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { useProductContext } from "../../../contexts";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "productName", headerName: "Nome do Produto", width: 130 },
-  { field: "description", headerName: "Descrição", width: 130 },
+  { field: "name", headerName: "Produto" },
+  { field: "description", headerName: "Descrição" },
+  { field: "price", headerName: "Valor", width: 130 },
 ];
 
 const rows = [
@@ -18,10 +19,13 @@ const rows = [
 ];
 
 export function ProductsTable() {
+  const { products } = useProductContext();
+
+  console.log({ products });
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={rows}
+        rows={products}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
