@@ -1,21 +1,10 @@
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useProductContext } from "../../../contexts";
 
 const columns: GridColDef[] = [
-  { field: "name", headerName: "Produto" },
-  { field: "description", headerName: "Descrição" },
-  { field: "price", headerName: "Valor", width: 130 },
-];
-
-const rows = [
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
-  { id: 1, productName: "Oxigênio", description: "Gás Oxigênio" },
+  { field: "name", headerName: "Produto", width: 300 },
+  { field: "description", headerName: "Descrição", width: 400 },
+  { field: "price", headerName: "Valor" },
 ];
 
 export function ProductsTable() {
@@ -25,7 +14,14 @@ export function ProductsTable() {
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
-        rows={products}
+        getRowId={(row) => row._id}
+        rows={products.map((item) => ({
+          ...item,
+          price: (item.price / 100).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }),
+        }))}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}

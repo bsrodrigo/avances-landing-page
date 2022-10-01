@@ -6,8 +6,10 @@ import { AddOutlined } from "@mui/icons-material";
 import { Typography } from "@/modules/core/presenters/components/atoms";
 import { theme } from "@/modules/core/presenters/components/bosons";
 import { Header } from "@/modules/core/presenters/components/organisms";
-import { ProductsTable } from "@/modules/products/presenters/components/organisms";
-import { ProductForm } from "@/modules/products/presenters/components/molecules";
+import {
+  ProductForm,
+  ProductsTable,
+} from "@/modules/products/presenters/components/organisms";
 import { ProductProvider } from "@/modules/products/presenters/contexts";
 
 export const ProductPage: React.FC = () => {

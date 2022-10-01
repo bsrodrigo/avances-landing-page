@@ -1,3 +1,5 @@
+import { useForm } from "react-hook-form";
+
 import {
   Button,
   Dialog,
@@ -12,11 +14,13 @@ import {
   MenuItem,
   Switch,
 } from "@mui/material";
+
 import {
   FormControl,
   Typography,
 } from "@/modules/core/presenters/components/atoms";
 import { Input, Select } from "@/modules/core/presenters/components/molecules";
+import { useProductContext } from "@/modules/products/presenters/contexts";
 
 interface IProductForm {
   open: boolean;
@@ -24,6 +28,19 @@ interface IProductForm {
 }
 
 export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const { findProducts } = useProductContext();
+
+  const handleSubmitForm = (data: any) => {
+    console.log({ data });
+  };
+
   return (
     <Dialog
       sx={{
@@ -32,45 +49,56 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
       maxWidth="xs"
       open={open}
     >
-      <DialogTitle color={(theme) => theme.palette.grey[800]}>
-        <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
-          Adicionar Produto
-        </Typography>
-        <Typography variant="body1" color={(theme) => theme.palette.grey[600]}>
-          Adicione um novo produto disponível na gestão de seu negócio
-        </Typography>
-      </DialogTitle>
-      <DialogContent dividers>
-        <form>
+      <form>
+        <DialogTitle color={(theme) => theme.palette.grey[800]}>
+          <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
+            Adicionar Produto
+          </Typography>
+          <Typography
+            variant="body1"
+            color={(theme) => theme.palette.grey[600]}
+          >
+            Adicione um novo produto disponível na gestão de seu negócio
+          </Typography>
+        </DialogTitle>
+        <DialogContent dividers>
           <Grid container columnSpacing={2} rowSpacing={1}>
             <Grid item sm={12} md={6}>
               <Input
-                fullWidth
                 label="Nome do Produto"
-                id="productName"
+                {...register("name")}
                 placeholder="Informe o produto"
+                fullWidth
               />
             </Grid>
             <Grid item sm={12} md={6}>
               <Input
-                fullWidth
                 label="Descrição"
-                id="productName"
-                placeholder="Informe a descrição"
+                id="description"
+                {...register("description")}
+                placeholder="Adicione uma descrição"
                 textHelper="Informação opcional"
+                fullWidth
               />
             </Grid>
             <Grid item sm={12} md={6}>
               <Input
-                fullWidth
-                label="Valor sugerido"
-                id="productName"
+                label="Valor do Produto"
+                id="price"
+                {...register("price")}
                 placeholder="Informe o valor"
-                textHelper="Valor sugerido para a venda"
+                fullWidth
               />
             </Grid>
             <Grid item sm={12} md={6}>
-              <Select fullWidth label="Unidade de medida" id="productName">
+              <Select
+                label="Unidade de medida"
+                id="measurement"
+                {...register("measurement")}
+                defaultValue=""
+                fullWidth
+              >
+                <MenuItem value="">Selecione uma opção</MenuItem>
                 <MenuItem value="m3">M3 - Metro cúbico</MenuItem>
                 <MenuItem value="un">UN - Unidade</MenuItem>
                 <MenuItem value="kg">KG - Quilograma</MenuItem>
@@ -81,18 +109,24 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
               <FormLabel component="legend">Configurações do produto</FormLabel>
               <FormGroup>
                 <FormControlLabel
-                  control={<Switch defaultValue={1} name="gilad" />}
+                  control={
+                    <Switch id="activeSale" {...register("activeSale")} />
+                  }
                   label="Disponível para venda"
                   labelPlacement="end"
                 />
                 <FormControlLabel
-                  control={<Switch name="jason" />}
+                  control={
+                    <Switch id="activeRental" {...register("activeRental")} />
+                  }
                   label="Disponível para locação"
                   labelPlacement="end"
                 />
                 <FormControl>
                   <FormControlLabel
-                    control={<Switch name="antoine" />}
+                    control={
+                      <Switch id="fixedPrice" {...register("fixedPrice")} />
+                    }
                     label="Valor fixo"
                     labelPlacement="end"
                   />
@@ -100,35 +134,27 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
                     Na venda o valor não será alterado
                   </FormHelperText>
                 </FormControl>
-                <FormControl>
-                  <FormControlLabel
-                    control={<Switch name="antoine" />}
-                    label="Estoque Disponível"
-                    labelPlacement="end"
-                  />
-                  <FormHelperText>O Produto terá um estoque?</FormHelperText>
-                </FormControl>
               </FormGroup>
             </Grid>
             <Grid item>
               <FormControl>
-                <FormLabel component="legend">Desativar Produto</FormLabel>
+                <FormLabel component="legend">Produto Ativo</FormLabel>
                 <FormControlLabel
-                  control={<Switch />}
-                  label="Inativo"
+                  control={<Switch id="isActive" {...register("isActive")} />}
+                  label="Ativo"
                   labelPlacement="bottom"
                 />
               </FormControl>
             </Grid>
           </Grid>
-        </form>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button variant="contained" onClick={() => null}>
-          Adicionar
-        </Button>
-      </DialogActions>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancelar</Button>
+          <Button variant="contained" onClick={handleSubmit(handleSubmitForm)}>
+            Adicionar
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

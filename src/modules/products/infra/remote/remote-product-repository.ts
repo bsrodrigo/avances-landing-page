@@ -4,7 +4,8 @@ import { Measurement, Product } from "@/modules/products/domain";
 
 export class RemoteProductRepository {
   async findProducts(): Promise<Product[]> {
-    const httpResponse = await api.post(`product`);
+    const httpResponse = await api.get(`product`);
+    console.log({ httpResponse });
     const responseData: Product[] = httpResponse.data;
 
     return responseData;
