@@ -5,11 +5,15 @@ import {
   InputBase,
   InputLabel,
 } from "@/modules/core/presenters/components/atoms";
+import { RefCallBack, UseFormRegisterReturn } from "react-hook-form";
 
-interface IInput extends IInputBase {
+interface IInput
+  extends Omit<IInputBase, "name" | "ref" | "onBlur" | "onChange">,
+    UseFormRegisterReturn {
   error?: boolean;
   label?: string;
   textHelper?: string;
+  ref: RefCallBack;
 }
 
 export const Input: React.FC<IInput> = ({
@@ -20,6 +24,7 @@ export const Input: React.FC<IInput> = ({
   textHelper,
   ...props
 }) => {
+  console.log({ "...props": { ...props } });
   return (
     <FormControl variant="standard" fullWidth={fullWidth}>
       {label && (

@@ -4,6 +4,7 @@ import { createContext, useContext } from 'react'
 type PropsProductContext = {
   measurements: Measurement[],
   products: Product[]
+  createProduct: (data: Product) => Promise<void>
   findProducts: () => Promise<void>
 }
 

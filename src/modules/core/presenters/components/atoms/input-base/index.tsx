@@ -1,9 +1,10 @@
 import { alpha, styled } from "@mui/material/styles";
 import { InputBase as MuiInputBase, InputBaseProps } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 export interface IInputBase extends InputBaseProps {}
 
-export const InputBase = styled(MuiInputBase)<IInputBase>(
+export const InputBaseStyled = styled(MuiInputBase)<IInputBase>(
   ({ theme, error, fullWidth }) => ({
     "label + &": {
       marginTop: theme.spacing(3),
@@ -34,3 +35,9 @@ export const InputBase = styled(MuiInputBase)<IInputBase>(
     },
   })
 );
+
+export const InputBase: React.FC<IInputBase> = ({ name, ...props }) => {
+  const { register } = useForm();
+  console.log({ propsIBase: { ...props } });
+  return <InputBaseStyled {...props} />;
+};

@@ -8,4 +8,5 @@ export * from "./link";
 export * from "./paper";
 export * from "./select-base";
 export * from "./sidebar-menu-item";
+export * from "./text-field";
 export * from "./typography";

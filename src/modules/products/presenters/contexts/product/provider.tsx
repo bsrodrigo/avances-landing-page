@@ -1,7 +1,8 @@
+import { Product } from "@/modules/products/domain";
 import { RemoteProductRepository } from "@/modules/products/infra/remote";
 import React, { ReactNode, useEffect, useReducer, useState } from "react";
 
-import { fetchFindMeasurements, fetchFindProducts } from "./actions";
+import { fetchCreateProduct, fetchFindMeasurements, fetchFindProducts } from "./actions";
 import { ProductContext } from "./context";
 import { initialState, reducer } from "./reducers";
 
@@ -37,6 +38,12 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
     dispatch(fetchFindProducts(responseData));
   };
 
+  const createProduct = async (data: Product): Promise<void> => {
+    const remoteProductRepository = new RemoteProductRepository();
+    const responseData = await remoteProductRepository.createProduct(data);
+    dispatch(fetchCreateProduct(responseData));
+  };
+
   useEffect(() => {
     if (loading) load();
   }, []);
@@ -46,6 +53,7 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
       value={{
         measurements: state.measurements,
         products: state.products,
+        createProduct,
         findProducts,
       }}
     >

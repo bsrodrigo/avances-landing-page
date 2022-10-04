@@ -1,7 +1,10 @@
+import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -13,14 +16,19 @@ import {
   Grid,
   MenuItem,
   Switch,
+  TextField,
 } from "@mui/material";
 
 import {
   FormControl,
   Typography,
 } from "@/modules/core/presenters/components/atoms";
-import { Input, Select } from "@/modules/core/presenters/components/molecules";
+import {
+  CurrencyTextField,
+  Select,
+} from "@/modules/core/presenters/components/molecules";
 import { useProductContext } from "@/modules/products/presenters/contexts";
+import { Product } from "@/modules/products/domain";
 
 interface IProductForm {
   open: boolean;
@@ -28,17 +36,36 @@ interface IProductForm {
 }
 
 export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
   } = useForm();
 
-  const { findProducts } = useProductContext();
+  const { createProduct } = useProductContext();
 
-  const handleSubmitForm = (data: any) => {
-    console.log({ data });
+  const handleSubmitForm = async (data: any) => {
+    try {
+      setLoading(true);
+
+      const dataFormatted: Product = {
+        ...data,
+        measurement: { id: "632a02ee1850eacb52d2536b" },
+      };
+
+      console.log({ dataFormatted });
+
+      await createProduct(dataFormatted);
+      onClose();
+    } catch (error: any) {
+      console.error(error?.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,40 +88,32 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
             Adicione um novo produto disponível na gestão de seu negócio
           </Typography>
         </DialogTitle>
+
         <DialogContent dividers>
           <Grid container columnSpacing={2} rowSpacing={1}>
-            <Grid item sm={12} md={6}>
-              <Input
+            <Grid item xs={12} md={6}>
+              <TextField
                 label="Nome do Produto"
                 {...register("name")}
                 placeholder="Informe o produto"
                 fullWidth
               />
             </Grid>
-            <Grid item sm={12} md={6}>
-              <Input
+            <Grid item xs={12} md={6}>
+              <TextField
                 label="Descrição"
                 id="description"
                 {...register("description")}
                 placeholder="Adicione uma descrição"
-                textHelper="Informação opcional"
+                helperText="Informação opcional"
                 fullWidth
               />
             </Grid>
-            <Grid item sm={12} md={6}>
-              <Input
-                label="Valor do Produto"
-                id="price"
-                {...register("price")}
-                placeholder="Informe o valor"
-                fullWidth
-              />
-            </Grid>
-            <Grid item sm={12} md={6}>
+            <Grid item xs={12} md={6}>
               <Select
                 label="Unidade de medida"
                 id="measurement"
-                {...register("measurement")}
+                inputProps={register("measurement")}
                 defaultValue=""
                 fullWidth
               >
@@ -104,8 +123,17 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
                 <MenuItem value="kg">KG - Quilograma</MenuItem>
               </Select>
             </Grid>
-
-            <Grid item sm={12} md={5}>
+            <Grid item xs={12} md={6}>
+              <CurrencyTextField
+                control={control}
+                label="Valor do Produto"
+                id="price"
+                name="price"
+                placeholder="Informe o valor"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
               <FormLabel component="legend">Configurações do produto</FormLabel>
               <FormGroup>
                 <FormControlLabel
@@ -136,11 +164,17 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
                 </FormControl>
               </FormGroup>
             </Grid>
-            <Grid item>
+            <Grid item visibility="hidden">
               <FormControl>
                 <FormLabel component="legend">Produto Ativo</FormLabel>
                 <FormControlLabel
-                  control={<Switch id="isActive" {...register("isActive")} />}
+                  control={
+                    <Switch
+                      id="isActive"
+                      {...register("isActive")}
+                      defaultChecked
+                    />
+                  }
                   label="Ativo"
                   labelPlacement="bottom"
                 />
@@ -148,9 +182,18 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
             </Grid>
           </Grid>
         </DialogContent>
+
         <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
-          <Button variant="contained" onClick={handleSubmit(handleSubmitForm)}>
+          <Button onClick={onClose} disabled={loading}>
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            // type="submit"
+            onClick={handleSubmit(handleSubmitForm)}
+            disabled={loading}
+            endIcon={loading && <CircularProgress />}
+          >
             Adicionar
           </Button>
         </DialogActions>

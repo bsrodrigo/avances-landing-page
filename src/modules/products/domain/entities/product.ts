@@ -1,6 +1,7 @@
 import { Measurement } from "@/modules/products/domain";
 
 export class Product {
+  public readonly id?: string;
   public readonly name: string;
   public readonly description?: string;
   public readonly price: number;
@@ -11,6 +12,7 @@ export class Product {
   public readonly isInactive?: boolean;
 
   constructor(data: Product.Data) {
+    this.id = data.id;
     this.name = data.name;
     this.description = data.description;
     this.price = data.price;
@@ -24,6 +26,7 @@ export class Product {
 
 export namespace Product {
   export type Data = {
+    id?: string;
     name: string;
     description?: string;
     price: number;
