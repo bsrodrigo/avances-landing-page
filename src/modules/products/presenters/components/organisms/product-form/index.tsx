@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 
@@ -31,12 +31,19 @@ import { useProductContext } from "@/modules/products/presenters/contexts";
 import { Product } from "@/modules/products/domain";
 
 interface IProductForm {
+  editId?: string;
   open: boolean;
   onClose: () => void;
 }
 
-export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
-  const [loading, setLoading] = useState(false);
+export const ProductForm: React.FC<IProductForm> = ({
+  editId,
+  open,
+  onClose,
+}) => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const [product, setProduct] = useState<Product>(null!);
 
   const {
     register,
@@ -46,27 +53,41 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
     formState: { errors },
   } = useForm();
 
-  const { createProduct } = useProductContext();
+  const { products, createProduct } = useProductContext();
 
   const handleSubmitForm = async (data: any) => {
     try {
-      setLoading(true);
+      setLoadingSubmit(true);
 
       const dataFormatted: Product = {
         ...data,
+        id: editId,
         measurement: { id: "632a02ee1850eacb52d2536b" },
       };
 
       console.log({ dataFormatted });
 
-      await createProduct(dataFormatted);
+      if (editId) {
+        console.log("edit");
+
+        // await createProduct(dataFormatted);
+      } else {
+        await createProduct(dataFormatted);
+      }
+
       onClose();
     } catch (error: any) {
       console.error(error?.message);
     } finally {
-      setLoading(false);
+      setLoadingSubmit(false);
     }
   };
+
+  useEffect(() => {
+    const productSelected = products?.find((item) => item.id === editId);
+    setProduct(productSelected!);
+    setLoading(false);
+  }, []);
 
   return (
     <Dialog
@@ -76,128 +97,149 @@ export const ProductForm: React.FC<IProductForm> = ({ open, onClose }) => {
       maxWidth="xs"
       open={open}
     >
-      <form>
-        <DialogTitle color={(theme) => theme.palette.grey[800]}>
-          <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
-            Adicionar Produto
-          </Typography>
-          <Typography
-            variant="body1"
-            color={(theme) => theme.palette.grey[600]}
-          >
-            Adicione um novo produto disponível na gestão de seu negócio
-          </Typography>
-        </DialogTitle>
+      {!loading ? (
+        <form>
+          <DialogTitle color={(theme) => theme.palette.grey[800]}>
+            <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
+              Adicionar Produto
+            </Typography>
+            <Typography
+              variant="body1"
+              color={(theme) => theme.palette.grey[600]}
+            >
+              Adicione um novo produto disponível na gestão de seu negócio
+            </Typography>
+          </DialogTitle>
 
-        <DialogContent dividers>
-          <Grid container columnSpacing={2} rowSpacing={1}>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Nome do Produto"
-                {...register("name")}
-                placeholder="Informe o produto"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Descrição"
-                id="description"
-                {...register("description")}
-                placeholder="Adicione uma descrição"
-                helperText="Informação opcional"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Select
-                label="Unidade de medida"
-                id="measurement"
-                inputProps={register("measurement")}
-                defaultValue=""
-                fullWidth
-              >
-                <MenuItem value="">Selecione uma opção</MenuItem>
-                <MenuItem value="m3">M3 - Metro cúbico</MenuItem>
-                <MenuItem value="un">UN - Unidade</MenuItem>
-                <MenuItem value="kg">KG - Quilograma</MenuItem>
-              </Select>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <CurrencyTextField
-                control={control}
-                label="Valor do Produto"
-                id="price"
-                name="price"
-                placeholder="Informe o valor"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormLabel component="legend">Configurações do produto</FormLabel>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Switch id="activeSale" {...register("activeSale")} />
-                  }
-                  label="Disponível para venda"
-                  labelPlacement="end"
+          <DialogContent dividers>
+            <Grid container columnSpacing={2} rowSpacing={1}>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Nome do Produto"
+                  defaultValue={product?.name}
+                  {...register("name")}
+                  placeholder="Informe o produto"
+                  fullWidth
                 />
-                <FormControlLabel
-                  control={
-                    <Switch id="activeRental" {...register("activeRental")} />
-                  }
-                  label="Disponível para locação"
-                  labelPlacement="end"
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label="Descrição"
+                  defaultValue={product?.description}
+                  id="description"
+                  {...register("description")}
+                  placeholder="Adicione uma descrição"
+                  helperText="Informação opcional"
+                  fullWidth
                 />
-                <FormControl>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Select
+                  label="Unidade de medida"
+                  defaultValue={product?.measurement?.id}
+                  id="measurement"
+                  inputProps={register("measurement")}
+                  fullWidth
+                >
+                  <MenuItem value="">Selecione uma opção</MenuItem>
+                  <MenuItem value="m3">M3 - Metro cúbico</MenuItem>
+                  <MenuItem value="un">UN - Unidade</MenuItem>
+                  <MenuItem value="kg">KG - Quilograma</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <CurrencyTextField
+                  control={control}
+                  defaultValue={product?.price}
+                  label="Valor do Produto"
+                  id="price"
+                  name="price"
+                  placeholder="Informe o valor"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <FormLabel component="legend">
+                  Configurações do produto
+                </FormLabel>
+                <FormGroup>
                   <FormControlLabel
                     control={
-                      <Switch id="fixedPrice" {...register("fixedPrice")} />
+                      <Switch
+                        id="activeSale"
+                        defaultChecked={product?.activeSale}
+                        {...register("activeSale")}
+                      />
                     }
-                    label="Valor fixo"
+                    label="Disponível para venda"
                     labelPlacement="end"
                   />
-                  <FormHelperText>
-                    Na venda o valor não será alterado
-                  </FormHelperText>
-                </FormControl>
-              </FormGroup>
-            </Grid>
-            <Grid item visibility="hidden">
-              <FormControl>
-                <FormLabel component="legend">Produto Ativo</FormLabel>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      id="isActive"
-                      {...register("isActive")}
-                      defaultChecked
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        id="activeRental"
+                        defaultChecked={product?.activeSale}
+                        {...register("activeRental")}
+                      />
+                    }
+                    label="Disponível para locação"
+                    labelPlacement="end"
+                  />
+                  <FormControl>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          id="fixedPrice"
+                          defaultChecked={product?.activeSale}
+                          {...register("fixedPrice")}
+                        />
+                      }
+                      label="Valor fixo"
+                      labelPlacement="end"
                     />
-                  }
-                  label="Ativo"
-                  labelPlacement="bottom"
-                />
-              </FormControl>
+                    <FormHelperText>
+                      Na venda o valor não será alterado
+                    </FormHelperText>
+                  </FormControl>
+                </FormGroup>
+              </Grid>
+              <Grid item visibility={product?.id ? "visible" : "hidden"}>
+                <FormControl>
+                  <FormLabel component="legend">Produto Ativo</FormLabel>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        id="isActive"
+                        {...register("isActive")}
+                        defaultChecked={product?.activeSale ?? true}
+                      />
+                    }
+                    label="Ativo"
+                    labelPlacement="bottom"
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
-        </DialogContent>
+          </DialogContent>
 
-        <DialogActions>
-          <Button onClick={onClose} disabled={loading}>
-            Cancelar
-          </Button>
-          <Button
-            variant="contained"
-            // type="submit"
-            onClick={handleSubmit(handleSubmitForm)}
-            disabled={loading}
-            endIcon={loading && <CircularProgress />}
-          >
-            Adicionar
-          </Button>
-        </DialogActions>
-      </form>
+          <DialogActions>
+            <Button onClick={onClose} disabled={loading}>
+              Cancelar
+            </Button>
+            <Button
+              variant="contained"
+              // type="submit"
+              onClick={handleSubmit(handleSubmitForm)}
+              disabled={loadingSubmit}
+              endIcon={loadingSubmit && <CircularProgress size={16} />}
+            >
+              {product?.id ? "Alterar" : "Adicionar"}
+            </Button>
+          </DialogActions>
+        </form>
+      ) : (
+        "loading..."
+      )}
     </Dialog>
   );
 };

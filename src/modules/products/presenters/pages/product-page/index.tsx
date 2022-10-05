@@ -13,14 +13,24 @@ import {
 import { ProductProvider } from "@/modules/products/presenters/contexts";
 
 export const ProductPage: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [editId, setEditId] = useState<string>("");
   const handleOpen = (): void => {
     setOpen(true);
   };
 
   const handleClose = (): void => {
     setOpen(false);
+    setEditId("");
   };
+
+  const handleEdit = (id: string): void => {
+    console.log({ id });
+    if (!id) return;
+    setEditId(id);
+    setOpen(true);
+  };
+
   return (
     <ProductProvider>
       <div>
@@ -67,10 +77,12 @@ export const ProductPage: React.FC = () => {
             </div>
           </div>
 
-          <ProductsTable />
+          <ProductsTable onEdit={handleEdit} />
         </Card>
 
-        <ProductForm open={open} onClose={handleClose} />
+        {open && (
+          <ProductForm open={open} onClose={handleClose} editId={editId} />
+        )}
       </div>
     </ProductProvider>
   );

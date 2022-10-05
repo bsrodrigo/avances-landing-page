@@ -49,9 +49,36 @@ export const theme = createTheme({
       },
     },
     MuiCssBaseline: {
-      styleOverrides: (themeParam) => ({
-        body: themeParam.palette.mode === "dark" ? { ...darkScrollbar } : null,
-      }),
+      styleOverrides: {
+        body: {
+          scrollbarColor: "#6b6b6b #2b2b2b",
+          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+            backgroundColor: "rgba(0,0,0, .07)",
+            width: 8,
+            height: 8,
+          },
+          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+            borderRadius: 8,
+            backgroundColor: "#b9b9b9",
+            minHeight: 8,
+          },
+          "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus":
+            {
+              backgroundColor: "#b9b9b9",
+            },
+          "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active":
+            {
+              backgroundColor: "#b9b9b9",
+            },
+          "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover":
+            {
+              backgroundColor: "#b9b9b9",
+            },
+          "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+            backgroundColor: "unset",
+          },
+        },
+      },
     },
   },
 });

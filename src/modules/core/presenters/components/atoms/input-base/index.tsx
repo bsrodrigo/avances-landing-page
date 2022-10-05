@@ -38,6 +38,5 @@ export const InputBaseStyled = styled(MuiInputBase)<IInputBase>(
 
 export const InputBase: React.FC<IInputBase> = ({ name, ...props }) => {
   const { register } = useForm();
-  console.log({ propsIBase: { ...props } });
   return <InputBaseStyled {...props} />;
 };

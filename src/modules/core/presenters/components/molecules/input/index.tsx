@@ -23,20 +23,15 @@ export const Input: React.FC<IInput> = ({
   id,
   textHelper,
   ...props
-}) => {
-  console.log({ "...props": { ...props } });
-  return (
-    <FormControl variant="standard" fullWidth={fullWidth}>
-      {label && (
-        <InputLabel shrink htmlFor={id}>
-          {label}
-        </InputLabel>
-      )}
+}) => (
+  <FormControl variant="standard" fullWidth={fullWidth}>
+    {label && (
+      <InputLabel shrink htmlFor={id}>
+        {label}
+      </InputLabel>
+    )}
 
-      <InputBase id={id} {...props} error={error} fullWidth={fullWidth} />
-      {textHelper && (
-        <FormHelperText error={error}>{textHelper}</FormHelperText>
-      )}
-    </FormControl>
-  );
-};
+    <InputBase id={id} {...props} error={error} fullWidth={fullWidth} />
+    {textHelper && <FormHelperText error={error}>{textHelper}</FormHelperText>}
+  </FormControl>
+);

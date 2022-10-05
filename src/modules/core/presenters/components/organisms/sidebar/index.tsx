@@ -8,15 +8,16 @@ import { SidebarMenuItem } from "@/modules/core/presenters/components/atoms";
 export const Sidebar: React.FC = () => {
   const SidebarPaper = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.grey[100],
-    height: "100vh",
-    width: 96,
+    height: "100%",
+    minHeight: "100vh",
+    width: 88,
     padding: 24,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
   }));
 
   const SidebarMenu = styled(MenuList)(({ theme }) => ({
-    width: 96,
+    width: 88,
     marginLeft: -24,
     marginTop: 48,
     textAlign: "center",
