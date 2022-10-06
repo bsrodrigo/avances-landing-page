@@ -28,8 +28,9 @@ export const DeleteProduct: React.FC<IDeleteProduct> = ({
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleDelete = async (): Promise<void> => {
-    await onDelete(product?.id!);
     setLoading(true);
+    await onDelete(product?.id!);
+    setLoading(false);
     onClose();
   };
 

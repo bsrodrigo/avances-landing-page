@@ -1,6 +1,6 @@
 export class Measurement {
   public readonly id?: string;
-  public readonly acronym: string;
+  public readonly acronym?: string;
   public readonly description?: string;
 
   constructor(data: Measurement.Data) {
@@ -13,7 +13,7 @@ export class Measurement {
 export namespace Measurement {
   export type Data = {
     id?: string;
-    acronym: string;
+    acronym?: string;
     description?: string;
   };
 }

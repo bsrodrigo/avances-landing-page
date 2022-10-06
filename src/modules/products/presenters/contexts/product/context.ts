@@ -1,13 +1,19 @@
-import { Measurement, Product } from '@/modules/products/domain'
-import { createContext, useContext } from 'react'
+import { Measurement, Product } from "@/modules/products/domain";
+import { createContext, useContext } from "react";
 
 type PropsProductContext = {
-  measurements: Measurement[],
-  products: Product[]
-  createProduct: (data: Product) => Promise<void>
-  findProducts: () => Promise<void>
-}
+  measurements: Measurement[];
+  products: Product[];
+  createProduct: (data: Product) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
+  findProducts: () => Promise<void>;
+  findMeasurements: () => Promise<void>;
+  updateProduct: (data: Product) => Promise<void>;
+};
 
-export const ProductContext = createContext<PropsProductContext>({} as PropsProductContext)
+export const ProductContext = createContext<PropsProductContext>(
+  {} as PropsProductContext
+);
 
-export const useProductContext = (): PropsProductContext => useContext(ProductContext)
+export const useProductContext = (): PropsProductContext =>
+  useContext(ProductContext);

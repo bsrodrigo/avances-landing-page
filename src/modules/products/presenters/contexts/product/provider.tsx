@@ -2,7 +2,13 @@ import { Product } from "@/modules/products/domain";
 import { RemoteProductRepository } from "@/modules/products/infra/remote";
 import React, { ReactNode, useEffect, useReducer, useState } from "react";
 
-import { fetchCreateProduct, fetchFindMeasurements, fetchFindProducts } from "./actions";
+import {
+  fetchCreateProduct,
+  fetchDeleteProduct,
+  fetchFindMeasurements,
+  fetchFindProducts,
+  fetchUpdateProduct,
+} from "./actions";
 import { ProductContext } from "./context";
 import { initialState, reducer } from "./reducers";
 
@@ -17,7 +23,7 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
 
   const load = async (): Promise<void> => {
     try {
-      // await FindMeasurements();
+      await findMeasurements();
       await findProducts();
     } catch (err: any) {
       setError(err.message);
@@ -26,7 +32,19 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
     }
   };
 
-  const FindMeasurements = async (): Promise<void> => {
+  const createProduct = async (data: Product): Promise<void> => {
+    const remoteProductRepository = new RemoteProductRepository();
+    const responseData = await remoteProductRepository.createProduct(data);
+    dispatch(fetchCreateProduct(responseData));
+  };
+
+  const deleteProduct = async (id: string): Promise<void> => {
+    const remoteProductRepository = new RemoteProductRepository();
+    await remoteProductRepository.deleteProduct(id);
+    dispatch(fetchDeleteProduct(id));
+  };
+
+  const findMeasurements = async (): Promise<void> => {
     const remoteProductRepository = new RemoteProductRepository();
     const responseData = await remoteProductRepository.findMeasurements();
     dispatch(fetchFindMeasurements(responseData));
@@ -38,10 +56,10 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
     dispatch(fetchFindProducts(responseData));
   };
 
-  const createProduct = async (data: Product): Promise<void> => {
+  const updateProduct = async (data: Product): Promise<void> => {
     const remoteProductRepository = new RemoteProductRepository();
-    const responseData = await remoteProductRepository.createProduct(data);
-    dispatch(fetchCreateProduct(responseData));
+    await remoteProductRepository.updateProduct(data);
+    dispatch(fetchUpdateProduct(data));
   };
 
   useEffect(() => {
@@ -54,7 +72,10 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
         measurements: state.measurements,
         products: state.products,
         createProduct,
+        deleteProduct,
+        findMeasurements,
         findProducts,
+        updateProduct,
       }}
     >
       {loading ? "loading..." : error || children}

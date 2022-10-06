@@ -49,11 +49,11 @@ export const ProductForm: React.FC<IProductForm> = ({
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const { products, createProduct } = useProductContext();
+  const { measurements, products, createProduct, updateProduct } =
+    useProductContext();
 
   const handleSubmitForm = async (data: any) => {
     try {
@@ -62,15 +62,11 @@ export const ProductForm: React.FC<IProductForm> = ({
       const dataFormatted: Product = {
         ...data,
         id: editId,
-        measurement: { id: "632a02ee1850eacb52d2536b" },
+        measurement: { id: data?.measurement },
       };
 
-      console.log({ dataFormatted });
-
       if (editId) {
-        console.log("edit");
-
-        // await createProduct(dataFormatted);
+        await updateProduct(dataFormatted);
       } else {
         await createProduct(dataFormatted);
       }
@@ -97,22 +93,19 @@ export const ProductForm: React.FC<IProductForm> = ({
       maxWidth="xs"
       open={open}
     >
-      {!loading ? (
-        <form>
-          <DialogTitle color={(theme) => theme.palette.grey[800]}>
-            <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
-              Adicionar Produto
-            </Typography>
-            <Typography
-              variant="body1"
-              color={(theme) => theme.palette.grey[600]}
-            >
-              Adicione um novo produto disponível na gestão de seu negócio
-            </Typography>
-          </DialogTitle>
+      <DialogTitle color={(theme) => theme.palette.grey[800]}>
+        <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
+          Adicionar Produto
+        </Typography>
+        <Typography variant="body1" color={(theme) => theme.palette.grey[600]}>
+          Adicione um novo produto disponível na gestão de seu negócio
+        </Typography>
+      </DialogTitle>
 
-          <DialogContent dividers>
-            <Grid container columnSpacing={2} rowSpacing={1}>
+      <DialogContent dividers>
+        {!loading ? (
+          <form>
+            <Grid container columnSpacing={2} rowSpacing={2}>
               <Grid item xs={12} md={6}>
                 <TextField
                   label="Nome do Produto"
@@ -142,9 +135,14 @@ export const ProductForm: React.FC<IProductForm> = ({
                   fullWidth
                 >
                   <MenuItem value="">Selecione uma opção</MenuItem>
-                  <MenuItem value="m3">M3 - Metro cúbico</MenuItem>
-                  <MenuItem value="un">UN - Unidade</MenuItem>
-                  <MenuItem value="kg">KG - Quilograma</MenuItem>
+                  {measurements?.map((measurement) => (
+                    <MenuItem
+                      key={measurement?.id}
+                      value={measurement?.id}
+                    >{`${measurement?.acronym?.toUpperCase()} - ${
+                      measurement?.description
+                    }`}</MenuItem>
+                  ))}
                 </Select>
               </Grid>
               <Grid item xs={12} md={6}>
@@ -178,7 +176,7 @@ export const ProductForm: React.FC<IProductForm> = ({
                     control={
                       <Switch
                         id="activeRental"
-                        defaultChecked={product?.activeSale}
+                        defaultChecked={product?.activeRental}
                         {...register("activeRental")}
                       />
                     }
@@ -190,7 +188,7 @@ export const ProductForm: React.FC<IProductForm> = ({
                       control={
                         <Switch
                           id="fixedPrice"
-                          defaultChecked={product?.activeSale}
+                          defaultChecked={product?.fixedPrice}
                           {...register("fixedPrice")}
                         />
                       }
@@ -211,7 +209,7 @@ export const ProductForm: React.FC<IProductForm> = ({
                       <Switch
                         id="isActive"
                         {...register("isActive")}
-                        defaultChecked={product?.activeSale ?? true}
+                        defaultChecked={product?.isActive ?? true}
                       />
                     }
                     label="Ativo"
@@ -220,26 +218,25 @@ export const ProductForm: React.FC<IProductForm> = ({
                 </FormControl>
               </Grid>
             </Grid>
-          </DialogContent>
+          </form>
+        ) : (
+          "loading..."
+        )}
+      </DialogContent>
 
-          <DialogActions>
-            <Button onClick={onClose} disabled={loading}>
-              Cancelar
-            </Button>
-            <Button
-              variant="contained"
-              // type="submit"
-              onClick={handleSubmit(handleSubmitForm)}
-              disabled={loadingSubmit}
-              endIcon={loadingSubmit && <CircularProgress size={16} />}
-            >
-              {product?.id ? "Alterar" : "Adicionar"}
-            </Button>
-          </DialogActions>
-        </form>
-      ) : (
-        "loading..."
-      )}
+      <DialogActions>
+        <Button onClick={onClose} disabled={loading}>
+          Cancelar
+        </Button>
+        <Button
+          variant="contained"
+          onClick={handleSubmit(handleSubmitForm)}
+          disabled={loadingSubmit}
+          endIcon={loadingSubmit && <CircularProgress size={16} />}
+        >
+          {product?.id ? "Alterar" : "Adicionar"}
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };

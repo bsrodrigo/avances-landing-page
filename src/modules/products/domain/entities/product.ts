@@ -9,7 +9,7 @@ export class Product {
   public readonly activeSale?: boolean;
   public readonly activeRental?: boolean;
   public readonly fixedPrice?: boolean;
-  public readonly isInactive?: boolean;
+  public readonly isActive?: boolean;
 
   constructor(data: Product.Data) {
     this.id = data.id;
@@ -20,7 +20,7 @@ export class Product {
     this.activeSale = data.activeSale;
     this.activeRental = data.activeRental;
     this.fixedPrice = data.fixedPrice;
-    this.isInactive = data.isInactive;
+    this.isActive = data.isActive;
   }
 }
 
@@ -34,6 +34,6 @@ export namespace Product {
     activeSale: boolean;
     activeRental: boolean;
     fixedPrice: boolean;
-    isInactive: boolean;
+    isActive: boolean;
   };
 }

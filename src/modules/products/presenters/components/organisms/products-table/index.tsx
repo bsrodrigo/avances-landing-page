@@ -33,7 +33,7 @@ export const ProductsTable: React.FC<IProductsTable> = ({ onEdit }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [productSelected, setProductSelected] = useState<Product>(null!);
 
-  const { products } = useProductContext();
+  const { products, deleteProduct } = useProductContext();
 
   const handleOpen = (product: Product): void => {
     if (!product?.id) null;
@@ -48,7 +48,11 @@ export const ProductsTable: React.FC<IProductsTable> = ({ onEdit }) => {
   };
 
   const handleDelete = async (id: string): Promise<void> => {
-    console.log("deletou");
+    try {
+      await deleteProduct(id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   productSelected;

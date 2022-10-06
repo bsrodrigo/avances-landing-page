@@ -4,10 +4,24 @@ import { Measurement, Product } from "@/modules/products/domain";
 
 export class RemoteProductRepository {
   async createProduct(data: Product): Promise<Product> {
-    const response = await api.post(`product`, data);
-    const responseData: Product = { ...response.data, id: response.data?._id };
+    const dataFormatted = {
+      ...data,
+      _measurement: data.measurement?.id,
+      isInactive: !data.isActive,
+    };
+    const response = await api.post(`product`, dataFormatted);
+    const responseData: Product = {
+      ...response.data,
+      id: response.data?._id,
+      isActive: !response.data?.isInactive,
+      measurement: { id: response.data?._measurement },
+    };
 
     return responseData;
+  }
+
+  async deleteProduct(id: string): Promise<void> {
+    await api.delete(`product/${id}`);
   }
 
   async findProducts(): Promise<Product[]> {
@@ -15,14 +29,40 @@ export class RemoteProductRepository {
     const responseData: Product[] = response.data?.map((product: any) => ({
       ...product,
       id: product?._id,
+      isActive: !product?.isInactive,
+      measurement: { id: product?._measurement },
     }));
 
     return responseData;
   }
 
   async findMeasurements(): Promise<Measurement[]> {
-    const response = await api.post(`product`);
-    const responseData: Measurement[] = response.data;
+    const response = await api.get(`measurement`);
+    const responseData: Measurement[] = response.data?.map(
+      ({ _id, acronym, description }: any) => ({
+        id: _id,
+        acronym,
+        description,
+      })
+    );
+
+    return responseData;
+  }
+
+  async updateProduct(data: Product): Promise<Product> {
+    const dataFormatted = {
+      ...data,
+      _measurement: data.measurement?.id,
+      isInactive: !data.isActive,
+    };
+
+    const response = await api.patch(`product/${data?.id}`, dataFormatted);
+    const responseData: Product = {
+      ...response.data,
+      id: response.data?._id,
+      isActive: !response.data?.isInactive,
+      measurement: { id: response.data?._measurement },
+    };
 
     return responseData;
   }
