@@ -8,6 +8,13 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 24
+        },
+      },
+    },
     MuiContainer: {
       styleOverrides: {
         root: {
