@@ -18,11 +18,9 @@ const App: React.FC = () => {
         <CssBaseline />
 
         <div style={{ display: "flex" }}>
-          <div style={{ width: 96 }}>
-            <Sidebar />
-          </div>
+          <Sidebar />
 
-          <Container maxWidth={false}>
+          <Container maxWidth={false} style={{ marginTop: 48 }}>
             <ProductPage />
           </Container>
         </div>
