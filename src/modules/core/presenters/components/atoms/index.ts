@@ -1,4 +1,5 @@
 export * from "./breadcrumbs";
+export * from "./button";
 export * from "./card";
 export * from "./form-control";
 export * from "./form-helper-text";
