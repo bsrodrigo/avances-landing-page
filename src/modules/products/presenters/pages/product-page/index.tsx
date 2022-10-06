@@ -1,89 +1,14 @@
-import { useState } from "react";
-
-import { alpha, Card, IconButton } from "@mui/material";
-import { AddOutlined } from "@mui/icons-material";
-
-import { Typography } from "@/modules/core/presenters/components/atoms";
-import { theme } from "@/modules/core/presenters/components/bosons";
 import { Header } from "@/modules/core/presenters/components/organisms";
-import {
-  ProductForm,
-  ProductsTable,
-} from "@/modules/products/presenters/components/organisms";
+import { ProductContent } from "@/modules/products/presenters/components/organisms";
+
 import { ProductProvider } from "@/modules/products/presenters/contexts";
 
-export const ProductPage: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [editId, setEditId] = useState<string>("");
-  const handleOpen = (): void => {
-    setOpen(true);
-  };
-
-  const handleClose = (): void => {
-    setOpen(false);
-    setEditId("");
-  };
-
-  const handleEdit = (id: string): void => {
-    console.log({ id });
-    if (!id) return;
-    setEditId(id);
-    setOpen(true);
-  };
-
-  return (
-    <ProductProvider>
-      <div>
-        <Header
-          breadcrumbs={[
-            { label: "Home", link: "/home" },
-            { label: "Produtos" },
-          ]}
-          title="Produtos"
-        />
-        <Card elevation={2} style={{ marginTop: 24 }}>
-          <div
-            style={{
-              marginBottom: 16,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div>
-              <Typography
-                variant="h6"
-                color={(theme) => theme.palette.grey[800]}
-              >
-                Lista de produtos
-              </Typography>
-              <Typography
-                variant="body1"
-                color={(theme) => theme.palette.grey[600]}
-              >
-                Veja os produto disponíveis na gestão de seu negócio
-              </Typography>
-            </div>
-
-            <div>
-              <IconButton
-                aria-label="add-product-button"
-                color="primary"
-                style={{ background: alpha(theme.palette.primary.light, 0.1) }}
-                onClick={handleOpen}
-              >
-                <AddOutlined />
-              </IconButton>
-            </div>
-          </div>
-
-          <ProductsTable onEdit={handleEdit} />
-        </Card>
-
-        {open && (
-          <ProductForm open={open} onClose={handleClose} editId={editId} />
-        )}
-      </div>
-    </ProductProvider>
-  );
-};
+export const ProductPage: React.FC = () => (
+  <ProductProvider>
+    <Header
+      breadcrumbs={[{ label: "Home", link: "/home" }, { label: "Estoque", link: "/estoque" }, { label: "Produtos" }]}
+      title="Produtos"
+    />
+    <ProductContent />
+  </ProductProvider>
+);

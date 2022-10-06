@@ -5,6 +5,7 @@ export * from "./form-control";
 export * from "./form-helper-text";
 export * from "./input-base";
 export * from "./input-label";
+export * from "./linear-progress";
 export * from "./link";
 export * from "./paper";
 export * from "./select-base";

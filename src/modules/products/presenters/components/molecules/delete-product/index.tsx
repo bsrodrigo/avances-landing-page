@@ -3,13 +3,13 @@ import { useState } from "react";
 import {
   Button,
   CircularProgress,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
 
 import { Typography } from "@/modules/core/presenters/components/atoms";
+import { Dialog } from "@/modules/core/presenters/components/molecules";
 import { Product } from "@/modules/products/domain";
 
 interface IDeleteProduct {
@@ -36,46 +36,27 @@ export const DeleteProduct: React.FC<IDeleteProduct> = ({
 
   return (
     <Dialog
-      sx={{
-        "& .MuiDialog-paper": { width: "70%", maxHeight: "90%", maxWidth: 960 },
-      }}
-      maxWidth="xs"
+      confirmLabel="Deletar"
+      loading={loading}
       open={open}
+      subtitle="Atenção, Você está deletando um produto!"
+      title="Deletar Produto"
+      onCancel={onClose}
+      onConfirm={handleDelete}
+      onClose={onClose}
+      reverseActionsButtons
+      maxWidth="small"
+      variant="error"
     >
-      <DialogTitle color={(theme) => theme.palette.grey[800]}>
-        <Typography variant="h6" color={(theme) => theme.palette.grey[800]}>
-          Deletar Produto
-        </Typography>
-        <Typography variant="body1" color={(theme) => theme.palette.grey[600]}>
-          Atenção, Você está deletando um produto!
-        </Typography>
-      </DialogTitle>
-
-      <DialogContent dividers>
-        <Typography variant="body1" color={(theme) => theme.palette.grey[800]}>
-          Se você continuar, estará deletando o produto:
-          <b> {product?.name || " - "}</b> e não poderá usa-lo novamente. Essa
-          ação não poderá ser desfeita!
-        </Typography>
-        <br />
-        <Typography variant="body1" color={(theme) => theme.palette.grey[800]}>
-          <b>Realmente deseja deletar?</b>
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={handleDelete}
-          disabled={loading}
-          endIcon={loading && <CircularProgress size={16} />}
-        >
-          Deletar
-        </Button>
-        <Button disabled={loading} onClick={onClose}>
-          Cancelar
-        </Button>
-      </DialogActions>
+      <Typography variant="body1" color={(theme) => theme.palette.grey[800]}>
+        Se você continuar, estará deletando o produto:
+        <b> {product?.name || " - "}</b> e não poderá usa-lo novamente. Essa
+        ação não poderá ser desfeita!
+      </Typography>
+      <br />
+      <Typography variant="body1" color={(theme) => theme.palette.grey[800]}>
+        <b>Realmente deseja deletar?</b>
+      </Typography>
     </Dialog>
   );
 };

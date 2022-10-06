@@ -13,10 +13,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import { useState } from "react";
-import { useProductContext } from "../../../contexts";
-import { DeleteProduct } from "../../molecules";
+import { useProductContext } from "@/modules/products/presenters/contexts";
 
 const columns: any[] = [
   { id: "table-product-product", label: "Produto" },
@@ -26,36 +23,12 @@ const columns: any[] = [
 ];
 
 interface IProductsTable {
-  onEdit: (id: string) => void;
+  onDelete: (id: Product) => void;
+  onEdit: (id: Product) => void;
 }
 
-export const ProductsTable: React.FC<IProductsTable> = ({ onEdit }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [productSelected, setProductSelected] = useState<Product>(null!);
-
-  const { products, deleteProduct } = useProductContext();
-
-  const handleOpen = (product: Product): void => {
-    if (!product?.id) null;
-
-    setProductSelected(product);
-    setOpen(true);
-  };
-
-  const handleClose = (): void => {
-    setProductSelected(null!);
-    setOpen(false);
-  };
-
-  const handleDelete = async (id: string): Promise<void> => {
-    try {
-      await deleteProduct(id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  productSelected;
+export const ProductsTable: React.FC<IProductsTable> = ({ onDelete, onEdit }) => {
+  const { products } = useProductContext();
 
   return (
     <>
@@ -91,13 +64,10 @@ export const ProductsTable: React.FC<IProductsTable> = ({ onEdit }) => {
                   {product?.price ? currencyFormatted(product.price) : "-"}
                 </TableCell>
                 <TableCell key={`${product?.id}-actions`}>
-                  <IconButton
-                    color="primary"
-                    onClick={() => onEdit(product?.id!)}
-                  >
+                  <IconButton color="primary" onClick={() => onEdit(product)}>
                     <EditOutlinedIcon />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleOpen(product)}>
+                  <IconButton color="error" onClick={() => onDelete(product)}>
                     <DeleteOutlineOutlinedIcon />
                   </IconButton>
                 </TableCell>
@@ -106,12 +76,6 @@ export const ProductsTable: React.FC<IProductsTable> = ({ onEdit }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <DeleteProduct
-        onClose={handleClose}
-        onDelete={handleDelete}
-        open={open}
-        product={productSelected}
-      />
     </>
   );
 };

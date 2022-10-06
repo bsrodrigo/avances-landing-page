@@ -1,3 +1,4 @@
+import { LoadingContent } from "@/modules/core/presenters/components/molecules";
 import { Product } from "@/modules/products/domain";
 import { RemoteProductRepository } from "@/modules/products/infra/remote";
 import React, { ReactNode, useEffect, useReducer, useState } from "react";
@@ -78,7 +79,7 @@ export const ProductProvider: React.FC<IProductProvider> = ({ children }) => {
         updateProduct,
       }}
     >
-      {loading ? "loading..." : error || children}
+      <LoadingContent loading={loading}>{error || children}</LoadingContent>
     </ProductContext.Provider>
   );
 };
