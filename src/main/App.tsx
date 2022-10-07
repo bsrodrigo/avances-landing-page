@@ -1,14 +1,8 @@
-import {
-  Container,
-  CssBaseline,
-  GlobalStyles,
-  ScopedCssBaseline,
-  ThemeProvider,
-} from "@mui/material";
+import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 
 import { theme } from "@/modules/core/presenters/components/bosons";
-import { ProductPage } from "@/modules/products/presenters/pages";
 import { Sidebar } from "@/modules/core/presenters/components/organisms";
+import { AppRoutes } from "./routes";
 
 const App: React.FC = () => {
   return (
@@ -21,7 +15,7 @@ const App: React.FC = () => {
           <Sidebar />
 
           <Container maxWidth={false} style={{ marginTop: 48 }}>
-            <ProductPage />
+            <AppRoutes />
           </Container>
         </div>
       </ThemeProvider>

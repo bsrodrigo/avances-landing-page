@@ -27,7 +27,10 @@ interface IProductsTable {
   onEdit: (id: Product) => void;
 }
 
-export const ProductsTable: React.FC<IProductsTable> = ({ onDelete, onEdit }) => {
+export const ProductsTable: React.FC<IProductsTable> = ({
+  onDelete,
+  onEdit,
+}) => {
   const { products } = useProductContext();
 
   return (
@@ -52,7 +55,7 @@ export const ProductsTable: React.FC<IProductsTable> = ({ onDelete, onEdit }) =>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product, index) => (
+            {products?.map((product, index) => (
               <TableRow hover key={`${product?.id}-${index}`}>
                 <TableCell key={`${product?.id}-name`}>
                   {product?.name || "-"}
