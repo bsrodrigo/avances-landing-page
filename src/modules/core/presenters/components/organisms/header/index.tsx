@@ -4,6 +4,7 @@ import {
   IBreadcrumb,
 } from "@/modules/core/presenters/components/molecules";
 
+import { HeaderStyled } from "./styled";
 interface IHeader {
   title: string;
   breadcrumbs: IBreadcrumb[];
@@ -11,12 +12,12 @@ interface IHeader {
 
 export const Header: React.FC<IHeader> = ({ breadcrumbs, title }) => {
   return (
-    <div>
+    <HeaderStyled>
       <Typography variant="h4" color={(theme) => theme.palette.grey[600]}>
         {title}
       </Typography>
 
       <Breadcrumbs breadcrumbs={breadcrumbs} />
-    </div>
+    </HeaderStyled>
   );
 };

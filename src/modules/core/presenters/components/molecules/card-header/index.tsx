@@ -4,7 +4,7 @@ import { Typography } from "@/modules/core/presenters/components/atoms";
 import { CardActionBox, CardHeaderBox } from "./styled";
 
 interface ICardHeader {
-  title: string;
+  title: string | ReactNode;
   subtitle?: string;
   actionElement?: ReactNode;
 }
@@ -25,7 +25,7 @@ export const CardHeader: React.FC<ICardHeader> = ({
             variant="body1"
             color={(theme) => theme.palette.grey[600]}
           >
-            Veja os produto disponíveis na gestão de seu negócio
+            {subtitle}
           </Typography>
         )}
       </div>

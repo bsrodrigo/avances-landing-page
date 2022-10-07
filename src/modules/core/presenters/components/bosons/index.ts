@@ -8,10 +8,20 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          "& .MuiAlert-message": {
+            width: "100%",
+          },
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 24
+          borderRadius: 16,
+          minWidth: 112
         },
       },
     },
@@ -28,7 +38,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 16,
-          backgroundColor: "#FFF !important",
+          // backgroundColor: "#FFF !important",
         },
       },
     },
@@ -52,6 +62,26 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           padding: "32px 24px",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: 24,
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-root": {
+            borderRadius: 16,
+            height: 48,
+          },
+          "& label": {
+            top: -5,
+          },
         },
       },
     },

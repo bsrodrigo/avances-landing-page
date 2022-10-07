@@ -58,7 +58,7 @@ export const ProductContent: React.FC = () => {
 
   return (
     <>
-      <Card elevation={2} style={{ marginTop: 24 }}>
+      <Card elevation={2}>
         <CardHeader
           title="Lista de produtos"
           subtitle="Veja os produto disponíveis na gestão de seu negócio"

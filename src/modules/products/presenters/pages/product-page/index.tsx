@@ -3,7 +3,7 @@ import { ProductContent } from "@/modules/products/presenters/components/organis
 
 import { ProductProvider } from "@/modules/products/presenters/contexts";
 
-export const ProductPage: React.FC = () => (
+const ProductPage: React.FC = () => (
   <ProductProvider>
     <Header
       breadcrumbs={[
