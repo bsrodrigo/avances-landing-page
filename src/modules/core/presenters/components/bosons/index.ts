@@ -7,6 +7,12 @@ export const theme = createTheme({
       default: "#F7FBFF",
     },
   },
+  typography: {
+    overline: {
+      fontWeight: 500,
+      letterSpacing: 0.5,
+    },
+  },
   components: {
     MuiAlert: {
       styleOverrides: {
@@ -21,7 +27,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 16,
-          minWidth: 112
+          minWidth: 112,
         },
       },
     },

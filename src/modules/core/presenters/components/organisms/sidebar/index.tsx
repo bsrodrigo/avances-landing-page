@@ -1,4 +1,17 @@
-import { IconButton, MenuItem, MenuList, Paper, styled } from "@mui/material";
+import {
+  Avatar,
+  Collapse,
+  Divider,
+  Fade,
+  IconButton,
+  MenuItem,
+  MenuList,
+  Paper,
+  Slide,
+  Slider,
+  styled,
+  Typography,
+} from "@mui/material";
 import {
   HomeOutlined as HomeOutlinedIcon,
   MenuOpenOutlined,
@@ -8,89 +21,102 @@ import {
 import { SidebarMenuItem } from "@/modules/core/presenters/components/atoms";
 import { theme } from "../../bosons";
 import { useState } from "react";
+import AvancesLogo from "./avances-logo";
 
 export const Sidebar: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(true);
+
   const SidebarPaper = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.grey[100],
+    backgroundColor: "#fff",
     height: "100%",
     minHeight: "100vh",
-    width: 88,
+    minWidth: 88,
     padding: 24,
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
+    zIndex: 99,
+    position: "relative",
   }));
 
   const SidebarMenu = styled(MenuList)(({ theme }) => ({
-    width: 88,
     marginLeft: -24,
     marginTop: 48,
     textAlign: "center",
+    width: "calc(100% + 48px)",
   }));
 
   return (
     <div
       style={{
-        width: open ? 88 : 0,
+        display: "flex",
       }}
     >
-      <IconButton
-        style={{
-          backgroundColor: "#fff",
-          position: "absolute",
-          left: open ? 66 : 40,
-          top: 24,
-        }}
-        onClick={() => setOpen((value) => !value)}
-      >
-        {open ? <MenuOpenOutlined /> : <MenuOutlined />}
-      </IconButton>
-      {open && (
-        <SidebarPaper elevation={6}>
-          <div>
-            <svg
-              width="40"
-              height="67"
-              viewBox="0 0 48 67"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <Slide direction="right" in={open}>
+        <div>
+          <SidebarPaper elevation={6}>
+            <IconButton
+              style={{
+                backgroundColor: "#fff",
+                position: "absolute",
+                height: 64,
+                borderRadius: 0,
+                right: -16,
+                top: 0,
+              }}
+              onClick={() => setExpanded((value) => !value)}
             >
-              <path
-                d="M19.1011 61.2001C23.2351 57.1885 23.3828 50.8643 20.642 44.9121C17.9012 38.96 9.04287 36.2556 4.66638 42.7526C0.2899 49.2496 13.6508 51.6962 0.805606 62.4081C-2.25433 67.1303 14.7246 67.6971 19.1011 61.2001Z"
-                fill="url(#paint0_linear_119_58)"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M6.16457 39.5773C2.75341 42.4521 0.313017 42.6759 0.0856049 41.2051C-1.99171 27.77 34.3255 -2.34883 45.082 0.793957C54.6334 3.58462 38.6501 44.3565 27.1475 49.577C24.8365 50.6259 24.1344 49.1779 23.0069 46.8528C22.0265 44.8308 20.7243 42.1454 17.7625 39.8618C15.9528 38.4665 9.57573 36.7025 6.16457 39.5773ZM23.4788 31.4848C19.8402 29.2529 18.6315 24.4757 20.779 20.8146C22.9265 17.1535 27.617 15.9948 31.2556 18.2267C34.8942 20.4586 36.1029 25.2358 33.9554 28.8969C31.8079 32.5581 27.1173 33.7167 23.4788 31.4848Z"
-                fill="#29A3FF"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_119_58"
-                  x1="1.25416"
-                  y1="51.1313"
-                  x2="17.5872"
-                  y2="27.9448"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stop-color="#FF7B1B" />
-                  <stop offset="1" stop-color="#FF7B1B" stop-opacity="0.16" />
-                </linearGradient>
-              </defs>
-            </svg>
+              {expanded ? <MenuOpenOutlined /> : <MenuOutlined />}
+            </IconButton>
 
-            <SidebarMenu>
-              <SidebarMenuItem isActive>
-                <HomeOutlinedIcon fontSize="large" />
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <ProductionQuantityLimitsOutlinedIcon fontSize="large" />
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </div>
-        </SidebarPaper>
-      )}
+            <div>
+              <AvancesLogo />
+              <Divider />
+
+              <SidebarMenu>
+                <SidebarMenuItem
+                  isActive
+                  icon={<HomeOutlinedIcon fontSize="large" />}
+                  label="Home"
+                />
+                <SidebarMenuItem
+                  icon={
+                    <ProductionQuantityLimitsOutlinedIcon fontSize="large" />
+                  }
+                  label="Estoque"
+                />
+              </SidebarMenu>
+            </div>
+          </SidebarPaper>
+        </div>
+      </Slide>
+      <Paper
+        elevation={4}
+        style={{
+          height: 64,
+          width: "100%",
+          borderRadius: 0,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: 16,
+        }}
+      >
+        <Fade in={!open}>
+          <IconButton
+            onClick={() => {
+              setOpen(true);
+              setExpanded(true);
+            }}
+          >
+            <MenuOutlined />
+          </IconButton>
+        </Fade>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Typography variant="body2">Marco Josy</Typography>
+          <Avatar />
+        </div>
+      </Paper>
     </div>
   );
 };

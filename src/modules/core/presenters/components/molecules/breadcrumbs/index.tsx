@@ -1,8 +1,9 @@
+import { Link as RouterLink } from "react-router-dom";
 import {
   BaseBreadcrumbs,
-  Link,
   Typography,
 } from "@/modules/core/presenters/components/atoms";
+import { Link } from "@mui/material";
 
 export interface IBreadcrumb {
   label: string;
@@ -18,10 +19,11 @@ export const Breadcrumbs: React.FC<IBreadcrumbs> = ({ breadcrumbs }) => (
     {breadcrumbs?.map((breadcrumb, index) =>
       breadcrumb?.link ? (
         <Link
+          component={RouterLink}
           key={`breadcrumb-header-item${index}`}
           underline="hover"
           color="inherit"
-          href={breadcrumb?.link}
+          to={breadcrumb?.link}
         >
           {breadcrumb?.label}
         </Link>
