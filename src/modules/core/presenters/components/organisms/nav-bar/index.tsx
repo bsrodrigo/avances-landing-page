@@ -48,7 +48,12 @@ export const NavBar: React.FC<INavBar> = ({ children }) => {
   const handleRedirect = (mainPath: string, path?: string): void => {
     if (!mainPath) return;
 
-    if (!path) return navigate(mainPath);
+    if (isMobile) setOpen(false);
+
+    if (!path) {
+      navigate(mainPath);
+      return;
+    }
 
     return navigate(`${mainPath}/${path}`);
   };
@@ -84,7 +89,7 @@ export const NavBar: React.FC<INavBar> = ({ children }) => {
 
   return (
     <NavBoxStyled>
-      <Slide in={open} direction="right">
+      <Slide in={open} direction="right" style={{ zIndex: 999 }}>
         <div>
           <NavBarStyled isMobile={isMobile} open={open} elevation={4}>
             <LogoBoxStyled>

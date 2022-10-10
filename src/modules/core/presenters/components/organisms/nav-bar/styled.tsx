@@ -27,6 +27,7 @@ export const TitleGroupStyled = styled("div")<IItemGroupStyled>(
 
 export const NavBoxStyled = styled("div")(() => ({
   display: "flex",
+  zIndex: 999
 }));
 
 export const NavBarBodyStyled = styled("div")(() => ({
