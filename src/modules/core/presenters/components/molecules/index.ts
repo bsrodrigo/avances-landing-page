@@ -2,6 +2,8 @@ export * from "./breadcrumbs";
 export * from "./card-header";
 export * from "./currency-text-field";
 export * from "./dialog";
+export * from "./header-profile";
 export * from "./input";
 export * from "./loading-content";
+export * from "./nav-bar-item";
 export * from "./select";

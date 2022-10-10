@@ -1,99 +1,77 @@
+import { useEffect } from "react";
+import { ReactNode, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
-  GifBoxOutlined,
-  HomeOutlined,
-  InventoryOutlined,
-  MenuOpenOutlined,
-  MenuOutlined,
-  ProductionQuantityLimitsOutlined,
+  HomeOutlined as HomeOutlinedIcon,
+  MenuOpenOutlined as MenuOpenOutlinedIcon,
+  MenuOutlined as MenuOutlinedIcon,
 } from "@mui/icons-material";
 import {
-  Collapse,
   Divider,
-  IconButton,
   MenuList,
-  Paper,
   Slide,
-  styled,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect } from "react";
-import { ReactNode, useState } from "react";
-import { SidebarMenuItem } from "../../atoms";
+
+import { NavBarItem } from "@/modules/core/presenters/components/molecules";
+import { NavBarHeader } from "@/modules/core/presenters/components/organisms";
+import { menuNavigation } from "@/modules/core/utils/menu-navigation";
+
 import AvancesLogo from "./avances-logo";
-import { NavBarHeader } from "./nav-bar-header";
+import {
+  ExpandButtonCoverStyled,
+  ExpandButtonStyled,
+  ItemGroupStyled,
+  LogoBoxStyled,
+  NavBarBodyStyled,
+  NavBarStyled,
+  NavBoxStyled,
+  TitleGroupStyled,
+} from "./styled";
 
 interface INavBar {
   children: ReactNode;
 }
 
-interface IItem {
-  key: string;
-  icon: ReactNode;
-  label: string;
-}
-
-interface IItemGroup {
-  key: string;
-  groupTitle?: string;
-  items: IItem[];
-}
-
-interface IItemActive {
-  groupKey: string;
-  itemKey: string;
-}
-
-const itemActive: IItemActive = {
-  groupKey: "estoque",
-  itemKey: "estoque",
-};
-
-const menu: IItemGroup[] = [
-  {
-    key: "home",
-    items: [{ key: "home", icon: <HomeOutlined />, label: "Home" }],
-  },
-  {
-    key: "estoque",
-    groupTitle: "Estoque",
-    items: [
-      {
-        key: "estoque",
-        icon: <HomeOutlined />,
-        label: "Estoque",
-      },
-      { key: "produto", icon: <HomeOutlined />, label: "Produtos" },
-      {
-        key: "estoque-hitorico",
-        icon: <HomeOutlined />,
-        label: "Histórico do estoque",
-      },
-    ],
-  },
-  {
-    key: "negocio",
-    groupTitle: "Negócio",
-    items: [
-      { key: "vendas", icon: <HomeOutlined />, label: "Vendas" },
-      { key: "compras", icon: <HomeOutlined />, label: "Compras" },
-      { key: "contatos", icon: <HomeOutlined />, label: "Contatos" },
-    ],
-  },
-];
-
 export const NavBar: React.FC<INavBar> = ({ children }) => {
   const theme = useTheme();
-  const SidebarMenu = styled(MenuList)(({ theme }) => ({
-    marginTop: 48,
-    textAlign: "center",
-  }));
+  const navigate = useNavigate();
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [open, setOpen] = useState<boolean>(!isMobile);
   const [expanded, setExpanded] = useState<boolean>(true);
+
+  const handleRedirect = (mainPath: string, path?: string): void => {
+    if (!mainPath) return;
+
+    if (!path) return navigate(mainPath);
+
+    return navigate(`${mainPath}/${path}`);
+  };
+
+  const handleIsAtiveItem = (mainPath: string, path?: string): boolean => {
+    const urlPath = window.location.pathname;
+    if (!mainPath) return false;
+
+    if (!path && urlPath === `/${mainPath}`) return true;
+
+    if (urlPath === `/${mainPath}/${path}`) return true;
+
+    return false;
+  };
+
+  const handleIsAtiveGroup = (mainPath: string): boolean => {
+    const urlPaths = window.location.pathname?.split("/");
+    if (!mainPath) return false;
+
+    if (urlPaths[1] === mainPath) return true;
+
+    return false;
+  };
 
   useEffect(() => {
     if (isMobile) {
@@ -105,118 +83,88 @@ export const NavBar: React.FC<INavBar> = ({ children }) => {
   }, [isMobile]);
 
   return (
-    <div style={{ display: "flex" }}>
-      <Slide in={open} direction="right" style={{}}>
-        <Paper
-          elevation={4}
-          style={{
-            minHeight: "100vh",
-            display: open ? "block" : "none",
-            position: isMobile ? "fixed" : "relative",
-            zIndex: 99,
-          }}
-        >
-          <div style={{ padding: "8px 16px" }}>
-            <AvancesLogo />
-            <Divider />
-          </div>
+    <NavBoxStyled>
+      <Slide in={open} direction="right">
+        <div>
+          <NavBarStyled isMobile={isMobile} open={open} elevation={4}>
+            <LogoBoxStyled>
+              <AvancesLogo />
+              <Divider />
+            </LogoBoxStyled>
 
-          <div style={{ padding: expanded ? "0 16px" : 0 }}>
-            {menu?.map(({ key, groupTitle, items }, index) => (
-              <div key={`menu-box-${index}`} style={{ marginBottom: 16 }}>
-                {groupTitle && (
-                  <div
-                    style={{ padding: "0 16px" }}
-                    key={`menu-group-${index}`}
-                  >
-                    <Typography
-                      variant="overline"
-                      color={(theme) =>
-                        key === itemActive?.groupKey
-                          ? theme.palette.primary.main
-                          : theme.palette.grey[600]
-                      }
+            {menuNavigation?.map(
+              (
+                { disabled, icon, label, path, children, groupLabel },
+                index
+              ) => (
+                <ItemGroupStyled
+                  expanded={expanded}
+                  key={`menu-group-${index}`}
+                >
+                  {groupLabel && (
+                    <TitleGroupStyled
+                      expanded={expanded}
+                      key={`menu-group-${index}`}
                     >
-                      {groupTitle}
-                    </Typography>
-                  </div>
-                )}
-                {items?.map((item) =>
-                  item?.key === itemActive?.itemKey ? (
-                    <div
-                      key={`menu-item-active${index}`}
-                      style={{
-                        margin: expanded ? "unset" : "0 auto",
-                        width: expanded ? "100%" : "fit-content",
-                        display: "flex",
-                        gap: 4,
-                        padding: "8px 8px",
-                        color: "#2182CC",
-                        borderRadius: 16,
-                        backgroundColor: "#E5F4FF",
-                        alignItems: "center",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {item.icon}
-                      {expanded && (
-                        <Typography variant="body1">{item?.label}</Typography>
-                      )}
-                    </div>
-                  ) : (
-                    <div
+                      <Typography
+                        variant="overline"
+                        color={(theme) =>
+                          handleIsAtiveGroup(path)
+                            ? theme.palette.primary.main
+                            : theme.palette.grey[500]
+                        }
+                      >
+                        {groupLabel}
+                      </Typography>
+                    </TitleGroupStyled>
+                  )}
+                  <MenuList style={{ padding: 0 }}>
+                    <NavBarItem
                       key={`menu-item-${index}`}
-                      style={{
-                        margin: expanded ? "unset" : "0 auto",
-                        width: expanded ? "100%" : "fit-content",
-                        display: "flex",
-                        gap: 4,
-                        padding: "8px 8px",
-                        borderRadius: 16,
-                        color: theme.palette.grey[600],
-                        alignItems: "center",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {item.icon}
-                      {expanded && <Typography>{item?.label}</Typography>}
-                    </div>
-                  )
-                )}
-              </div>
-            ))}
-          </div>
-          <div
-            style={{
-              width: 20,
-              height: 40,
-              boxShadow:
-                "rgb(0 0 0 / 20%) 0px 2px 4px -1px, rgb(0 0 0 / 14%) 0px 4px 5px 0px, rgb(0 0 0 / 12%) 0px 1px 10px 0px",
-              position: "absolute",
-              right: -20,
-              top: 24,
-              borderRadius: "0 20px 20px 0",
-            }}
-          />
-          <IconButton
-            onClick={() =>
-              isMobile ? setOpen(false) : setExpanded((value) => !value)
-            }
-            style={{
-              position: "absolute",
-              right: -20,
-              top: 24,
-              backgroundColor: "#fff",
-            }}
-          >
-            {expanded ? <MenuOpenOutlined /> : <MenuOutlined />}
-          </IconButton>
-        </Paper>
+                      expanded={expanded}
+                      icon={icon}
+                      label={label}
+                      isActive={handleIsAtiveItem(path)}
+                      onClick={() => (!disabled ? handleRedirect(path) : null)}
+                      disabled={disabled}
+                    />
+                    {children?.length! > 0 &&
+                      children?.map((child) => (
+                        <NavBarItem
+                          key={`menu-item-${index}`}
+                          expanded={expanded}
+                          icon={child.icon}
+                          label={child.label}
+                          isActive={handleIsAtiveItem(path, child?.path)}
+                          onClick={() =>
+                            !child?.disabled
+                              ? handleRedirect(path, child?.path)
+                              : null
+                          }
+                          disabled={child?.disabled}
+                        />
+                      ))}
+                  </MenuList>
+                </ItemGroupStyled>
+              )
+            )}
+
+            <ExpandButtonCoverStyled />
+            <ExpandButtonStyled
+              onClick={() =>
+                isMobile ? setOpen(false) : setExpanded((value) => !value)
+              }
+            >
+              {expanded ? <MenuOpenOutlinedIcon /> : <MenuOutlinedIcon />}
+            </ExpandButtonStyled>
+          </NavBarStyled>
+        </div>
       </Slide>
-      <div style={{ width: "100%" }}>
+
+      <NavBarBodyStyled>
         <NavBarHeader open={open} onOpen={() => setOpen(true)} />
         {children}
-      </div>
-    </div>
+      </NavBarBodyStyled>
+    </NavBoxStyled>
   );
 };
