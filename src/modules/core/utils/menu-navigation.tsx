@@ -1,8 +1,9 @@
 import {
-  CategoryOutlined as CategoryOutlinedIcon,
-  HomeOutlined as HomeOutlinedIcon,
-  InventoryOutlined as InventoryOutlinedIcon,
-  ManageSearchOutlined as ManageSearchOutlinedIcon,
+  AddShoppingCartRounded as AddShoppingCartRoundedIcon,
+  ConstructionRounded as ConstructionRoundedIcon,
+  HomeRounded as HomeRoundedIcon,
+  Inventory2Rounded as Inventory2RoundedIcon,
+  ManageSearchRounded as ManageSearchRoundedIcon,
 } from "@mui/icons-material";
 import { lazy, ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -31,7 +32,7 @@ export const menuNavigation: IMenuNavigation[] = [
   {
     path: "home",
     label: "Home",
-    icon: <HomeOutlinedIcon />,
+    icon: <HomeRoundedIcon />,
     element: (
       <div>
         <h1>Home</h1>
@@ -53,19 +54,19 @@ export const menuNavigation: IMenuNavigation[] = [
     groupLabel: "Estoque",
     path: "estoque",
     label: "Estoque",
-    icon: <InventoryOutlinedIcon />,
+    icon: <Inventory2RoundedIcon />,
     element: <InventoryPage />,
     children: [
       {
         path: "produtos",
         label: "Produtos",
-        icon: <CategoryOutlinedIcon />,
+        icon: <AddShoppingCartRoundedIcon />,
         element: <ProductsPage />,
       },
       {
         path: "movimentacoes",
         label: "Movimentações",
-        icon: <ManageSearchOutlinedIcon />,
+        icon: <ManageSearchRoundedIcon />,
         element: <InventoryHistoryPage />,
       },
     ],
@@ -74,14 +75,14 @@ export const menuNavigation: IMenuNavigation[] = [
     groupLabel: "Negócio",
     path: "negocio",
     label: "Negócio",
-    icon: <HomeOutlinedIcon />,
+    icon: <ConstructionRoundedIcon />,
     disabled: true,
     element: <div />,
     children: [
       {
         path: "compras",
         label: "Compras",
-        icon: <HomeOutlinedIcon />,
+        icon: <ConstructionRoundedIcon />,
         disabled: true,
         element: <div />,
       },
