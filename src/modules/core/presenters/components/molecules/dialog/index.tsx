@@ -18,6 +18,7 @@ interface IDialog {
   cancelLabel?: string;
   confirmLabel?: string;
   children: ReactNode | ReactNode[];
+  confirmDisabled?: boolean;
   hiddenCloseButton?: boolean;
   loading?: boolean;
   maxWidth?: "small" | "medium" | "large";
@@ -35,6 +36,7 @@ export const Dialog: React.FC<IDialog> = ({
   cancelLabel,
   confirmLabel,
   children,
+  confirmDisabled,
   hiddenCloseButton,
   loading,
   maxWidth,
@@ -92,7 +94,7 @@ export const Dialog: React.FC<IDialog> = ({
             variant="contained"
             color={variant === "error" ? variant : "primary"}
             onClick={onConfirm}
-            disabled={loading}
+            disabled={confirmDisabled || loading}
             endIcon={loading && <CircularProgress size={16} />}
           >
             {confirmLabel || "Confirmar"}

@@ -82,11 +82,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           "& .MuiInputBase-root": {
-            borderRadius: 16,
-            height: 48,
-          },
-          "& label": {
-            top: -5,
+            borderRadius: 12,
+            height: 56,
           },
         },
       },

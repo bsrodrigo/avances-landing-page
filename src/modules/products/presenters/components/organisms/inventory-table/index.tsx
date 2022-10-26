@@ -1,9 +1,6 @@
-import { currencyFormatted } from "@/modules/core/utils";
+import { formatDate } from "@/modules/core/utils";
 import { Product } from "@/modules/products/domain";
-import {
-  DeleteOutlineOutlined as DeleteOutlineOutlinedIcon,
-  EditOutlined as EditOutlinedIcon,
-} from "@mui/icons-material";
+import { EditOutlined as EditOutlinedIcon } from "@mui/icons-material";
 import {
   IconButton,
   Table,
@@ -13,7 +10,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useProductContext } from "@/modules/products/presenters/contexts";
+import { useInventoryContext } from "@/modules/products/presenters/contexts";
 
 const columns: any[] = [
   { id: "table-product-product", label: "Produto" },
@@ -23,14 +20,12 @@ const columns: any[] = [
 ];
 
 interface IInventoryTable {
-  onDelete: (id: Product) => void;
   onEdit: (id: Product) => void;
 }
 
-export const InventoryTable: React.FC<IInventoryTable> = ({
-  onDelete,
-  onEdit,
-}) => {
+export const InventoryTable: React.FC<IInventoryTable> = ({ onEdit }) => {
+  const { inventory } = useInventoryContext();
+
   return (
     <>
       <TableContainer
@@ -53,96 +48,27 @@ export const InventoryTable: React.FC<IInventoryTable> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>Pastel de Flango</TableCell>
-              <TableCell align="center">134</TableCell>
-              <TableCell>07/09/22 às 12:03</TableCell>
-              <TableCell>
-                <IconButton color="primary">
-                  <EditOutlinedIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
+            {inventory?.map((item, index) => {
+              const quantity = `${item?.quantity} ${item?.product?.measurement?.acronym}`;
+              return (
+                <TableRow
+                  hover
+                  key={`row-item-${item?.product?.name}-${index}`}
+                >
+                  <TableCell>{item?.product?.name || "-"}</TableCell>
+                  <TableCell align="center">{quantity}</TableCell>
+                  <TableCell>{formatDate(item?.updatedAt)}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => onEdit(item?.product)}
+                    >
+                      <EditOutlinedIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

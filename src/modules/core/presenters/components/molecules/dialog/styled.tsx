@@ -19,11 +19,19 @@ export const CloseButtonStyled = styled(IconButton)(({ theme }) => ({
 }));
 
 export const DialogBaseStyled = styled(Dialog)<IDialogBaseStyled>(
-  ({ styledMaxWidth = "large" }) => ({
+  ({ styledMaxWidth = "large", theme }) => ({
     "& .MuiDialog-paper": {
       width: "80%",
       maxHeight: "90vh",
       maxWidth: widthOptions[styledMaxWidth],
+
+      [theme.breakpoints.down("md")]: {
+        margin: 0,
+        width: "100vw",
+        height: "100vh",
+        maxHeight: "100vh",
+        borderRadius: "unset",
+      },
     },
   })
 );

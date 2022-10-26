@@ -1,8 +1,8 @@
-import { Card as MuiCard, CardProps } from "@mui/material";
-import React from "react";
+import { CardProps } from "@mui/material";
+import { CardStyled } from "./styled";
 
 interface ICard extends CardProps {}
 
 export const Card: React.FC<ICard> = ({ children, ...props }) => {
-  return <MuiCard {...props}>{children}</MuiCard>;
+  return <CardStyled {...props}>{children}</CardStyled>;
 };

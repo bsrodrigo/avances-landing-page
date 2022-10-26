@@ -1,16 +1,16 @@
 import { Header } from "@/modules/core/presenters/components/organisms";
 import { InventoryContent } from "@/modules/products/presenters/components/organisms";
 
-import { ProductProvider } from "@/modules/products/presenters/contexts";
+import { InventoryProvider } from "@/modules/products/presenters/contexts";
 
 const InventoryPage: React.FC = () => (
-  <ProductProvider>
+  <InventoryProvider>
     <Header
       breadcrumbs={[{ label: "Home", link: "/home" }, { label: "Estoque" }]}
       title="Estoque"
     />
     <InventoryContent />
-  </ProductProvider>
+  </InventoryProvider>
 );
 
 export default InventoryPage;

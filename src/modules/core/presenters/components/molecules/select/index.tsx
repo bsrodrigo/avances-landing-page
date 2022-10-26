@@ -7,6 +7,7 @@ import {
 import {
   FormControl,
   InputLabel,
+  SelectBase,
 } from "@/modules/core/presenters/components/atoms";
 
 interface ISelect extends SelectProps {
@@ -28,7 +29,7 @@ export const Select: React.FC<ISelect> = ({
     <FormControl fullWidth={fullWidth}>
       {label && <InputLabel htmlFor={id}>{label}</InputLabel>}
 
-      <MuiSelect
+      <SelectBase
         id={id}
         label={label}
         error={error}
@@ -36,7 +37,7 @@ export const Select: React.FC<ISelect> = ({
         {...props}
       >
         {children}
-      </MuiSelect>
+      </SelectBase>
 
       {textHelper && (
         <FormHelperText error={error}>{textHelper}</FormHelperText>
