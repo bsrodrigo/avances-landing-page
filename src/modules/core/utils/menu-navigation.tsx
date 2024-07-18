@@ -9,13 +9,13 @@ import { lazy, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 const InventoryPage = lazy(
-  () => import("@/modules/products/presenters/pages/inventory-page")
+  () => import("@/modules/inventory/presenters/pages/inventory-page")
 );
 const InventoryHistoryPage = lazy(
-  () => import("@/modules/products/presenters/pages/inventory-history-page")
+  () => import("@/modules/inventory/presenters/pages/inventory-history-page")
 );
 const ProductsPage = lazy(
-  () => import("@/modules/products/presenters/pages/product-page")
+  () => import("@/modules/inventory/presenters/pages/product-page")
 );
 
 interface IMenuNavigation {

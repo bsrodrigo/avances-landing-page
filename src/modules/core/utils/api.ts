@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const API_ENDPOINT = `https://avances-service.herokuapp.com/`;
-// export const API_ENDPOINT = "http://localhost:3333";
+// export const API_ENDPOINT = `https://avances-service.netlify.app`;
+export const API_ENDPOINT = "http://localhost:3333";
 
 // axios.defaults.withCredentials = true;
 

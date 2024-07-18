@@ -1,6 +1,4 @@
-import { IconButton, MenuItem, styled } from "@mui/material";
-import { Paper } from "@/modules/core/presenters/components/atoms";
-import { theme } from "@/modules/core/presenters/components/bosons";
+import { MenuItem, styled } from "@mui/material";
 
 interface INavBarItemStyled {
   expanded: boolean;

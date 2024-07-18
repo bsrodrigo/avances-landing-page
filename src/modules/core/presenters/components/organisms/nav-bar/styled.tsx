@@ -1,6 +1,5 @@
 import { IconButton, styled } from "@mui/material";
 import { Paper } from "@/modules/core/presenters/components/atoms";
-import { theme } from "@/modules/core/presenters/components/bosons";
 
 interface INavBarStyled {
   isMobile: boolean;
@@ -27,7 +26,7 @@ export const TitleGroupStyled = styled("div")<IItemGroupStyled>(
 
 export const NavBoxStyled = styled("div")(() => ({
   display: "flex",
-  zIndex: 999
+  zIndex: 999,
 }));
 
 export const NavBarBodyStyled = styled("div")(() => ({
@@ -49,7 +48,7 @@ export const LogoBoxStyled = styled("div")(() => ({
   padding: "8px 16px",
 }));
 
-export const ExpandButtonStyled = styled(IconButton)(() => ({
+export const ExpandButtonStyled = styled(IconButton)(({theme}) => ({
   position: "absolute",
   right: -20,
   top: 24,

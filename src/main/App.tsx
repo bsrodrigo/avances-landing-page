@@ -1,16 +1,16 @@
-import { Container, CssBaseline, ThemeProvider } from "@mui/material";
+import { Container, CssBaseline } from "@mui/material";
 
-import { theme } from "@/modules/core/presenters/components/bosons";
 import { NavBar } from "@/modules/core/presenters/components/organisms";
 import { AppRoutes } from "./routes";
 import { Suspense } from "react";
 import { LinearProgress } from "@/modules/core/presenters/components/atoms";
+import { ThemeProvider } from "@/modules/core/presenters/contexts";
 
 const App: React.FC = () => {
   return (
     <>
       {/* <ScopedCssBaseline enableColorScheme> */}
-      <ThemeProvider theme={theme}>
+      <ThemeProvider>
         <CssBaseline />
         <NavBar>
           <Container maxWidth="xl">
